@@ -18,7 +18,7 @@ class Mission:
 		#try:
 		depth = self.bridge.imgmsg_to_cv2(msg, "passthrough")
 		self.depth = np.array(depth)
-		self.depth = (self.depth)
+		self.depth = (self.depth) 
 		#print(self.depth[100][100])
 		#print(type(int(self.depth[240][400])))
 		#print(int(self.depth[240][200]))
@@ -33,7 +33,7 @@ class Mission:
 			print("True")
             #std = np.std(self.depth[])
             #mean = np.mean(self.depth[])
-            #writing_data = "std : %f, mean : %f" %(std, mean)
+            #writing_data = "std : %f, mean : %f\n" %(std, mean)
             #self.f.write(writing_data)
 		else :
 			print(int(self.depth[240][200]))
