@@ -17,8 +17,6 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   image_transport
   tf
-  ddynamic_reconfigure
-  diagnostic_updater
 )
 
 ## System dependencies are found with CMake's conventions
@@ -113,7 +111,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES noise
-#  CATKIN_DEPENDS cvbridge geometry_msgs roscpp rospy sensor_msgs std_msgs
+#  CATKIN_DEPENDS cv_bridge geometry_msgs roscpp rospy sensor_msgs std_msgs
 #  DEPENDS system_lib
 )
 
