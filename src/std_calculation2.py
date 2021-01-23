@@ -2,6 +2,7 @@
 import rospy
 import cv2 as cv
 from sensor_msgs.msg import Image
+from std_msgs.msg import Int32
 from cv_bridge import CvBridge
 from math import sin, cos, sqrt, pi
 import numpy as np
@@ -14,11 +15,12 @@ class Mission:
         self.bridge = CvBridge()
         self.f = open("std_data", 'w')
         self.f2 = open("std_data_pixel", 'w')
+        self.test_pub = rospy.Publisher('/testing_frequency', Int32, queue_size=10)
         self.f3 = open("mean_data_pixel", 'w')
-        self.width_s = 100 #has to be changed by depth image
-        self.width_e = 200 #has to be changed by depth image
-        self.height_s = 100
-        self.height_e = 200
+        self.width_s = 400 #has to be changed by depth image
+        self.width_e = 600 #has to be changed by depth image
+        self.height_s = 200
+        self.height_e = 400
         self.div_num = 2
         for i in range((self.width_e -  self.width_s)/self.div_num):
             for j in range((self.height_e - self.height_s)/self.div_num):
@@ -26,7 +28,9 @@ class Mission:
                 exec(s1)
     def depthCb(self, msg):
         depth = self.bridge.imgmsg_to_cv2(msg, "16UC1")
-        
+        test_msg = Int32()
+        test_msg.data = 1
+        self.test_pub.publish(test_msg)
         self.depth = np.array(depth)
         self.depth = (self.depth.astype(np.int64)) 
         std = np.std(self.depth[self.height_s:self.height_e,self.width_s:self.width_e])
