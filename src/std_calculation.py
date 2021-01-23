@@ -14,34 +14,36 @@ class Mission:
 		self.depth = np.empty((480,640), dtype = np.uint8)
 		self.bridge = CvBridge()
         self.f = open("std_data", 'w')
+		self.f2 = open("std_data_pixel", 'w')
+		self.width_s = 0 #has to be changed by depth image
+		self.width_e = 0 #has to be changed by depth image
+		self.height_s = 0
+		self.height_e = 0
+		s1 = ""# memory allocation for pixel's position?
 	def depthCb(self, msg):
-		#try:
-		depth = self.bridge.imgmsg_to_cv2(msg, "passthrough")
+		depth = self.bridge.imgmsg_to_cv2(msg, "16UC1")
 		self.depth = np.array(depth)
 		self.depth = (self.depth) 
-		#print(self.depth[100][100])
-		#print(type(int(self.depth[240][400])))
-		#print(int(self.depth[240][200]))
-		
+		std = np.std(self.depth[self.height_s:self.height_e][self.width_s:self.width_e])
+        mean = np.mean(self.depth[self.height_s:self.height_e][self.width_s:self.width_e])
+        writing_data = "std : %f, mean : %f\n" %(mean	std)
+        self.f.write(writing_data)
 	def main(self):
 		#print(self.depth[100,100])
-		#pass
 		a = int(self.depth[240][200])
 		b = int(self.depth[240][400])
 		
 		if (a == b):
 			print("True")
-            #std = np.std(self.depth[])
-            #mean = np.mean(self.depth[])
-            #writing_data = "std : %f, mean : %f\n" %(std, mean)
-            #self.f.write(writing_data)
 		else :
 			print(int(self.depth[240][200]))
 			pass
 
     def final(self):
+		#mean , std calculation for pixels
+		#mean, std write
         self.f.close()
-		
+		self.f2.close()
 
 if __name__ == '__main__':
 	# Initialize node
