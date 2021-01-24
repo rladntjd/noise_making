@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import rospy
 import cv2 as cv
+import sys
 from sensor_msgs.msg import Image
 from std_msgs.msg import Int32
 from cv_bridge import CvBridge
@@ -13,18 +14,18 @@ class Mission:
         rospy.Subscriber('/camera/depth/image_rect_raw', Image, self.depthCb)
         self.depth = np.empty((480,640), dtype = np.uint16)
         self.bridge = CvBridge()
-        self.f = open("std_data", 'w')
-        self.f2 = open("std_data_pixel", 'w')
-        self.test_pub = rospy.Publisher('/testing_frequency', Int32, queue_size=10)
-        self.f3 = open("mean_data_pixel", 'w')
-        self.width_s = 400 #has to be changed by depth image
-        self.width_e = 600 #has to be changed by depth image
-        self.height_s = 200
-        self.height_e = 400
+        self.f = open('ex_2_10pl_std_data.txt', 'w')
+        self.f2 = open('ex_2_10pl_std_data_pixel.txt', 'w')
+        self.test_pub = rospy.Publisher('/testing_frequency', Int32, queue_size=10000)
+        self.f3 = open('ex_2_10pl_mean_data_pixel.txt', 'w')
+        self.width_s = 315 #has to be changed by depth image
+        self.width_e = 355 #has to be changed by depth image
+        self.height_s = 234
+        self.height_e = 262
         self.div_num = 2
         for i in range((self.width_e -  self.width_s)/self.div_num):
             for j in range((self.height_e - self.height_s)/self.div_num):
-                s1 = 'self.pixel_data_%d%d = []' %(i,j)
+                s1 = 'self.pixel_data_%d%d = []' %(i,j)  # x, y coordinate
                 exec(s1)
     def depthCb(self, msg):
         depth = self.bridge.imgmsg_to_cv2(msg, "16UC1")
@@ -44,7 +45,7 @@ class Mission:
         self.f.write(writing_data)
         for i in range((self.width_e -  self.width_s)/self.div_num):
             for j in range((self.height_e - self.height_s)/self.div_num):
-                s2 = 'self.pixel_data_%d%d.append(self.depth[i,j])' %(i,j)
+                s2 = 'self.pixel_data_%d%d.append(self.depth[j,i])' %(i,j)
                 exec(s2)
     def main(self):
         #print(self.depth[100,100])
