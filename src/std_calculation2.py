@@ -18,11 +18,11 @@ class Mission:
         self.f2 = open('ex_2_10pl_std_data_pixel.txt', 'w')
         self.test_pub = rospy.Publisher('/testing_frequency', Int32, queue_size=10000)
         self.f3 = open('ex_2_10pl_mean_data_pixel.txt', 'w')
-        self.width_s = 315 #has to be changed by depth image
-        self.width_e = 355 #has to be changed by depth image
-        self.height_s = 234
-        self.height_e = 262
-        self.div_num = 2
+        self.width_s = 248 #has to be changed by depth image
+        self.width_e = 211 #has to be changed by depth image
+        self.height_s = 428
+        self.height_e = 319
+        self.div_num = 8
         for i in range((self.width_e -  self.width_s)/self.div_num):
             for j in range((self.height_e - self.height_s)/self.div_num):
                 s1 = 'self.pixel_data_%d%d = []' %(i,j)  # x, y coordinate
