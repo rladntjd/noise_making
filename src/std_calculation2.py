@@ -58,9 +58,9 @@ class Mission:
         #mean, std write
         for i in range((self.width_e -  self.width_s)/self.div_num):
             for j in range((self.height_e - self.height_s)/self.div_num):
-                s1 = 'pixel_data_std += str(np.std(self.pixel_data_%d%d))'%(i,j)
+                s1 = 'pixel_data_std += str(np.std(self.pixel_data_%d%d[:,:]))'%(i,j)
                 pixel_data_std += "\t"
-                s2 = 'pixel_data_mean += str(np.mean(self.pixel_data_%d%d))'%(i,j)
+                s2 = 'pixel_data_mean += str(np.mean(self.pixel_data_%d%d[:,:]))'%(i,j)
                 pixel_data_mean += "\t"
                 exec(s1)
                 exec(s2)
