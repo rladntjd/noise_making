@@ -20,13 +20,13 @@ class Mission:
         rospy.Subscriber('/camera/depth/image_rect_raw', Image, self.depthCb)
         self.depth = np.empty((480,640), dtype = np.uint16)
         self.bridge = CvBridge()
-        self.f = open('ex2_10pl_filtered_std_data.txt', 'w')
-        self.f2 = open('ex2_10pl_filtered_std_data_pixel.txt', 'w')
+        self.f = open('ex2_10_filtered_std_data.txt', 'w')
+        self.f2 = open('ex2_10_filtered_std_data_pixel.txt', 'w')
         self.test_pub = rospy.Publisher('/testing_frequency', Int32, queue_size=10000)
-        self.f3 = open('ex2_10pl_filtered_mean_data_pixel.txt', 'w')
-        self.f4 = open('ex2_10pl_zero_value.txt', 'w')
-        self.f5 = open('ex2_10pl_over_value.txt', 'w')
-        self.step = 6
+        self.f3 = open('ex2_10_filtered_mean_data_pixel.txt', 'w')
+        self.f4 = open('ex2_10_zero_value.txt', 'w')
+        self.f5 = open('ex2_10_over_value.txt', 'w')
+        self.step = 5
         self.process = {0:[248,211,428,319,6], # 2
                         1:[292,247,386,301,4], #4
                         2:[305,244,368,280,3], #6
