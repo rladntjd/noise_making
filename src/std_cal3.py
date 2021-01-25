@@ -9,7 +9,7 @@ from math import sin, cos, sqrt, pi
 import numpy as np
 
 def check(item):
-    if item >= 13000:
+    if item >= 11000:
         return True
     else :
         return False
@@ -20,16 +20,16 @@ class Mission:
         rospy.Subscriber('/camera/depth/image_rect_raw', Image, self.depthCb)
         self.depth = np.empty((480,640), dtype = np.uint16)
         self.bridge = CvBridge()
-        self.f = open('ex10_filtered_std_data.txt', 'w')
-        self.f2 = open('ex10_filtered_std_data_pixel.txt', 'w')
+        self.f = open('ex2_10pl_filtered_std_data.txt', 'w')
+        self.f2 = open('ex2_10pl_filtered_std_data_pixel.txt', 'w')
         self.test_pub = rospy.Publisher('/testing_frequency', Int32, queue_size=10000)
-        self.f3 = open('ex10_filtered_mean_data_pixel.txt', 'w')
-        self.f4 = open('ex10_zero_value.txt', 'w')
-        self.f5 = open('ex10_over_value.txt', 'w')
-        self.step = 4
-        self.process = {0:[248,211,428,319,8], # 2
-                        1:[292,247,386,301,6], #4
-                        2:[305,244,368,280,4], #6
+        self.f3 = open('ex2_10pl_filtered_mean_data_pixel.txt', 'w')
+        self.f4 = open('ex2_10pl_zero_value.txt', 'w')
+        self.f5 = open('ex2_10pl_over_value.txt', 'w')
+        self.step = 6
+        self.process = {0:[248,211,428,319,6], # 2
+                        1:[292,247,386,301,4], #4
+                        2:[305,244,368,280,3], #6
                         3:[309,238,363,266,2], #8
                         4:[311,238,354,263,1], #10
                         5:[314,234,355,264,1], #2~10
@@ -64,7 +64,7 @@ class Mission:
         
         for i in range((self.width_e -  self.width_s)/self.div_num):
             for j in range((self.height_e - self.height_s)/self.div_num):
-                if (self.depth[j*self.div_num + self.height_s,i*self.div_num + self.width_s] != 0) and (self.depth[j*self.div_num + self.height_s,i*self.div_num + self.width_s] < 13000):
+                if (self.depth[j*self.div_num + self.height_s,i*self.div_num + self.width_s] != 0) and (self.depth[j*self.div_num + self.height_s,i*self.div_num + self.width_s] < 11000):
                     mean_data.append(self.depth[j*self.div_num + self.height_s,i*self.div_num + self.width_s])
                     s3 = 'self.filtered_pixel_data_%d_%d.append(self.depth[j*self.div_num + self.height_s,i*self.div_num + self.width_s])' %(i*self.div_num,j*self.div_num)  
                     exec(s3)
