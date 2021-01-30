@@ -125,6 +125,8 @@ include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
 )
+add_executable(image_pub_cpp src/image_pub_cpp.cpp) 
+target_link_libraries(image_pub_cpp ${catkin_LIBRARIES})
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
