@@ -12,9 +12,11 @@ class Mission:
 		# Subscriber
 		cv.namedWindow("Image window", 1)
 		cv.namedWindow("Depth window", 1)
+		cv.namedWindow("Generated Image", 1)
 		rospy.Subscriber('/camera/depth/image_rect_raw', Image, self.depthCb)
 		rospy.Subscriber('/camera/color/image_raw', Image, self.colorCb)
 		self.depth = np.empty((480,640), dtype = np.uint16)
+		self.generated = np.empty((480,640), dtype = np.uint16)
 		self.color = np.empty((480,640), dtype = np.uint8)
 		self.bridge = CvBridge()
 	def depthCb(self, msg):
@@ -23,7 +25,7 @@ class Mission:
 		self.depth = np.array(depth)
 		self.depth = (self.depth)
 		cv.imshow("Depth window", depth)
-		cv.imwrite("depth.png", depth)
+		#cv.imwrite("depth.png", depth)
 		cv.waitKey(1)
 		#print(self.depth[100][100])
 		#print(type(int(self.depth[240][400])))
@@ -34,7 +36,7 @@ class Mission:
 		self.color = np.array(color)
 		self.color = (self.color)
 		cv.imshow("Image window", color)
-		cv.imwrite("img.png", color)
+		#cv.imwrite("img.png", color)
 		cv.waitKey(1)
 		#print(self.depth[100][100])
 		#print(type(int(self.depth[240][400])))
@@ -43,14 +45,13 @@ class Mission:
 	def main(self):
 		#print(self.depth[100,100])
 		#pass
-		a = self.depth[240][200]
-		b = self.depth[240][400]
-		
-		if (a == b):
-			print("True")
-		else :
-			print(self.depth[240][200])
-			pass
+		for i in range (640):
+			for j in range (480):
+				standDer = 7e-7 * np.square(self.depth[j][i])
+				generatedNum = np.random.normal(self.depth[j][i], standDer, 1)
+				self.generated[j][i] = (self.depth[j][i] + generatedNum.astype(np.int16)).astype(np.uint16)
+		cv.imshow("Generated Image", self.generated)
+		cv.waitKey(1)
 		
 
 if __name__ == '__main__':
