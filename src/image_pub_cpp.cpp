@@ -6,7 +6,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
 #include <ros/console.h>
- 
+
 class ImageConverter
 {
   ros::NodeHandle nh_;
@@ -19,8 +19,7 @@ public:
     : it_(nh_)
   {
     // Subscrive to input video feed and publish output video feed
-    image_sub_ = it_.subscribe("/camera/depth/image_rect_raw", 1,
-      &ImageConverter::imageCb, this);
+    image_sub_ = it_.subscribe("/camera/depth/image_rect_raw", 1, &ImageConverter::imageCb, this);
     image_pub_ = it_.advertise("/image_example", 1);
   }
 
@@ -29,17 +28,16 @@ public:
     cv_bridge::CvImagePtr cv_ptr;
     
     cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::TYPE_16UC1);
-    for(int i = 0; i < 480; i++)
-    {
-        for(int j = 0; j < 640; j++)
-        {
-            std::cout<<cv_ptr->image.data[j,i]<<std::endl;
-        }
 
+    for(int i=0; i<cv_ptr->image.rows; i++) {
+      for(int j=0; j<cv_ptr->image.cols; j++){
+        printf("%d\n", cv_ptr->image.at<uint16_t>(i,j));
+      }
     }
     // Output modified video stream
     image_pub_.publish(cv_ptr->toImageMsg());
   }
+  
 };
 
 int main(int argc, char** argv)
