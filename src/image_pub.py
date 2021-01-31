@@ -29,7 +29,7 @@ class Mission:
                         4:[311,238,354,263,1], #10
                         5:[314,234,355,264,1], #2~10
                         6:[315,234,355,262,1],
-                        7:[0,0,640,480,3]}.get(self.step)
+                        7:[0,0,640,480,4]}.get(self.step)
         print(self.process)
         self.width_s = self.process[0] #has to be changed by depth image
         print(self.width_s)
@@ -45,7 +45,22 @@ class Mission:
         for i in range((self.width_e -  self.width_s)/self.div_num):
             for j in range((self.height_e - self.height_s)/self.div_num):
                 self.depth[j,i] += 1
-        
+                self.depth[j,i+1] += 1
+                self.depth[j,i+2] += 1
+                self.depth[j,i+3] += 1
+                self.depth[j+1,i] += 1
+                self.depth[j+1,i+1] += 1
+                self.depth[j+1,i+2] += 1
+                self.depth[j+1,i+3] += 1
+                self.depth[j+2,i] += 1
+                self.depth[j+2,i+1] += 1
+                self.depth[j+2,i+2] += 1
+                self.depth[j+2,i+3] += 1
+                self.depth[j+3,i] += 1
+                self.depth[j+3,i+1] += 1
+                self.depth[j+3,i+2] += 1
+                self.depth[j+3,i+3] += 1
+
         self.image_pub.publish(self.bridge.cv2_to_imgmsg(self.depth, encoding="passthrough"))
     def main(self):
         #print(self.depth[100,100])

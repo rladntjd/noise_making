@@ -5,6 +5,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
+#include <ros/console.h>
  
 class ImageConverter
 {
@@ -23,21 +24,16 @@ public:
     image_pub_ = it_.advertise("/image_example", 1);
   }
 
-  ~ImageConverter()
-  {
-
-  }
-
   void imageCb(const sensor_msgs::ImageConstPtr& msg)
   {
     cv_bridge::CvImagePtr cv_ptr;
     
-    cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR16);
+    cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::TYPE_16UC1);
     for(int i = 0; i < 480; i++)
     {
         for(int j = 0; j < 640; j++)
         {
-            cv_ptr->image.data[j,i]++;
+            std::cout<<cv_ptr->image.data[j,i]<<std::endl;
         }
 
     }
