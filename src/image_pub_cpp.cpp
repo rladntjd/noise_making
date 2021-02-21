@@ -24,7 +24,7 @@ struct parameter{
 };
 struct parameter seg_to_constant[5];
 static uint8_t color[5][3] = {{26, 27, 45},{70, 76, 194},{152, 67, 200},{6, 206, 29},{1, 60, 44}};
-static float constant[5][2] = {{0.001106, 0.05335}, {0.001507, 0.0843}, {0.03485, 0.1851}, {0.001802, 0.01455}, {0.001552, 0.00654}};
+static float constant[5][2] = {{0.001106, 0.05335}, {0.001507, 0.0843}, {0.03485, 0.1851}, {0.001082, 0.01455}, {0.001552, 0.00654}};
 static float power[5][2] = {{1.966, 0.2968}, {1.526, 0.3572}, {1.497, 0.2523}, {1.245, 0.4688}, {0.997, 0.4292}};
 static int trans_prob;
 
@@ -110,16 +110,16 @@ public:
               average = cv_ptr->image.at<float>(i,j);
               //printf("%f\n", average);
               if(average < 3.){
-                cv_ptr->image.at<float>(i,j) =  gaussianRandom(average, 0.0014 * exp(1.1 * average));
-                deviation = 0.0014 * exp(1.1 * average);
-                //cv_ptr->image.at<float>(i,j) =  gaussianRandom(average, seg_to_constant[k].constant[0] * exp(seg_to_constant[k].power[0]));
-                //deviation = seg_to_constant[k].constant[0] * exp(seg_to_constant[k].power[0] * average);
+                // cv_ptr->image.at<float>(i,j) =  gaussianRandom(average, 0.0014 * exp(1.1 * average));
+                // deviation = 0.0014 * exp(1.1 * average);
+                cv_ptr->image.at<float>(i,j) =  gaussianRandom(average, seg_to_constant[k].constant[0] * exp(seg_to_constant[k].power[0]));
+                deviation = seg_to_constant[k].constant[0] * exp(seg_to_constant[k].power[0] * average);
               }
               else {
-                cv_ptr->image.at<float>(i,j) = gaussianRandom(average, value_C * exp(value_D * average));
-                deviation = value_C * exp(value_D * average);
-                //cv_ptr->image.at<float>(i,j) =  gaussianRandom(average, seg_to_constant[k].constant[1] * exp(seg_to_constant[k].power[1]));
-                //deviation = seg_to_constant[k].constant[1] * exp(seg_to_constant[k].power[1] * average);
+                // cv_ptr->image.at<float>(i,j) = gaussianRandom(average, value_C * exp(value_D * average));
+                // deviation = value_C * exp(value_D * average);
+                cv_ptr->image.at<float>(i,j) =  gaussianRandom(average, seg_to_constant[k].constant[1] * exp(seg_to_constant[k].power[1]));
+                deviation = seg_to_constant[k].constant[1] * exp(seg_to_constant[k].power[1] * average);
               }
               break;
             }
