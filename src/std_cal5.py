@@ -20,12 +20,12 @@ class Mission:
         rospy.Subscriber('/camera/depth/image_rect_raw', Image, self.depthCb)
         self.depth = np.empty((480,640), dtype = np.uint16)
         self.bridge = CvBridge()
-        self.f = open('check_35_35_1_filtered_std_data.txt', 'w')
-        self.f2 = open('check_35_35_1_filtered_std_data_pixel.txt', 'w')
+        self.f = open('check_raw_filtered_std_data.txt', 'w')
+        self.f2 = open('check_raw_filtered_std_data_pixel.txt', 'w')
         self.test_pub = rospy.Publisher('/testing_frequency', Int32, queue_size=10000)
-        self.f3 = open('check_35_35_1_filtered_mean_data_pixel.txt', 'w')
-        self.f4 = open('check_35_35_1_zero_value.txt', 'w')
-        self.f5 = open('check_35_35_1_over_value.txt', 'w')
+        self.f3 = open('check_raw_filtered_mean_data_pixel.txt', 'w')
+        self.f4 = open('check_raw_zero_value.txt', 'w')
+        self.f5 = open('check_raw_over_value.txt', 'w')
         self.step = 1
         self.process = {0:[317,213,351,254,1], # 1 material 50~6
                         1:[324,215,355,254,1]}.get(self.step)
