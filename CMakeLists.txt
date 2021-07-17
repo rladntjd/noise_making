@@ -130,6 +130,7 @@ include_directories(
 add_executable(image_pub_cpp src/image_pub_cpp.cpp) 
 target_link_libraries(image_pub_cpp ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
+
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/noise.cpp

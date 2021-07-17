@@ -11,6 +11,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
 #include <ros/console.h>
+#include "/home/rise/AirSim/AirLib/src/vehicles/multirotor/api/MultirotorRpcLibClient.hpp"
 
 int probability;
 int trans_rand;
@@ -45,6 +46,18 @@ float min(float a, float b){
     return a;
   }
 }
+
+int getOneImage() 
+{
+    using namespace msr::airlib;
+
+    // for car use CarRpcLibClient
+    MultirotorRpcLibClient client;
+
+    std::vector<uint8_t> png_image = client.simGetImage("0", VehicleCameraBase::ImageType::Scene);
+    // do something with images
+}
+
 
 float gaussianRandom(float average, float stdev);
 class ImageConverter
@@ -176,15 +189,16 @@ int main(int argc, char** argv)
 {
   ros::init(argc, argv, "image_converter");
   srand((unsigned int)time(NULL));
-  for(int i=0; i<5; i++) {
-    for(int j=0; j<3; j++) {
-      seg_to_constant[i].color[j] = color[i][j];
-      if(j<3) {
-        seg_to_constant[i].constant[j] = constant[i][j];
-        seg_to_constant[i].power[j] = power[i][j];
-      }
-    }
-  }
+  //for(int i=0; i<5; i++) {
+   // for(int j=0; j<3; j++) {
+  //    seg_to_constant[i].color[j] = color[i][j];
+  //    if(j<3) {
+  //      seg_to_constant[i].constant[j] = constant[i][j];
+  //      seg_to_constant[i].power[j] = power[i][j];
+  //    }
+  //  }
+  //}
+  getOneImage()
   ImageConverter ic;
   ros::spin();
   return 0;
